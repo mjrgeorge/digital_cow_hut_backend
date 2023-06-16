@@ -11,9 +11,9 @@ const AcademicDepartmentSchema = new Schema<
       required: true,
       unique: true,
     },
-    academicFaculty: {
+    User: {
       type: Schema.Types.ObjectId,
-      ref: 'AcademicFaculty',
+      ref: 'User',
       required: true,
     },
   },

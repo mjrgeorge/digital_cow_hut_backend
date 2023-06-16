@@ -48,7 +48,7 @@ const getAllDepartments = async (
     andConditions.length > 0 ? { $and: andConditions } : {};
 
   const result = await AcademicDepartment.find(whereConditions)
-    .populate('academicFaculty')
+    .populate('User')
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
@@ -68,18 +68,14 @@ const getAllDepartments = async (
 const createDepartment = async (
   payload: IAcademicDepartment
 ): Promise<IAcademicDepartment | null> => {
-  const result = (await AcademicDepartment.create(payload)).populate(
-    'academicFaculty'
-  );
+  const result = (await AcademicDepartment.create(payload)).populate('User');
   return result;
 };
 
 const getSingleDepartment = async (
   id: string
 ): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findById(id).populate(
-    'academicFaculty'
-  );
+  const result = await AcademicDepartment.findById(id).populate('User');
   return result;
 };
 
@@ -93,7 +89,7 @@ const updateDepartment = async (
     {
       new: true,
     }
-  ).populate('academicFaculty');
+  ).populate('User');
   return result;
 };
 

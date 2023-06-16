@@ -1,14 +1,14 @@
 import express from 'express';
 
 import { academicDepartmentRoutes } from '../modules/cow/cow.routes';
-import { AcademicFacultyRoutes } from '../modules/user/user.route';
+import { UserRoutes } from '../modules/user/user.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
   {
     path: '/academic-faculties',
-    route: AcademicFacultyRoutes,
+    route: UserRoutes,
   },
   {
     path: '/academic-departments',

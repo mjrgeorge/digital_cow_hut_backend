@@ -1,15 +1,45 @@
 import { Schema, model } from 'mongoose';
-import { AcademicFacultyModel, IAcademicFaculty } from './user.interfaces';
+import { IUser, UserModel } from './user.interfaces';
 
-const AcademicFacultySchema = new Schema<
-  IAcademicFaculty,
-  AcademicFacultyModel
->(
+const UserSchema = new Schema<IUser, UserModel>(
   {
-    title: {
+    phoneNumber: {
       type: String,
       required: true,
-      unique: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ['seller', 'buyer'],
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: {
+        firstName: {
+          type: String,
+          required: true,
+        },
+        lastName: {
+          type: String,
+          required: true,
+        },
+      },
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    budget: {
+      type: Number,
+      required: true,
+    },
+    income: {
+      type: Number,
+      required: true,
     },
   },
   {
@@ -20,7 +50,4 @@ const AcademicFacultySchema = new Schema<
   }
 );
 
-export const AcademicFaculty = model<IAcademicFaculty, AcademicFacultyModel>(
-  'AcademicFaculty',
-  AcademicFacultySchema
-);
+export const User = model<IUser, UserModel>('User', UserSchema);

@@ -1,22 +1,20 @@
 import { SortOrder } from 'mongoose';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
-import { academicFacultySearchableFields } from './user.constants';
-import { IAcademicFaculty, IAcademicFacultyFilters } from './user.interfaces';
-import { AcademicFaculty } from './user.model';
 import { IPaginationOptions } from '../../../interfaces/paginationOption';
+import { UserSearchableFields } from './user.constants';
+import { IUser, IUserFilters } from './user.interfaces';
+import { User } from './user.model';
 
-const createFaculty = async (
-  payload: IAcademicFaculty
-): Promise<IAcademicFaculty | null> => {
-  const result = await AcademicFaculty.create(payload);
+const createUser = async (payload: IUser): Promise<IUser | null> => {
+  const result = await User.create(payload);
   return result;
 };
 
-const getAllFaculties = async (
-  filters: IAcademicFacultyFilters,
+const getAllUsers = async (
+  filters: IUserFilters,
   paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<IAcademicFaculty[]>> => {
+): Promise<IGenericResponse<IUser[]>> => {
   const { searchTerm, ...filtersData } = filters;
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
@@ -25,7 +23,7 @@ const getAllFaculties = async (
 
   if (searchTerm) {
     andConditions.push({
-      $or: academicFacultySearchableFields.map(field => ({
+      $or: UserSearchableFields.map(field => ({
         [field]: {
           $regex: searchTerm,
           $options: 'i',
@@ -50,12 +48,12 @@ const getAllFaculties = async (
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
-  const result = await AcademicFaculty.find(whereConditions)
+  const result = await User.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
-  const total = await AcademicFaculty.countDocuments();
+  const total = await User.countDocuments();
 
   return {
     meta: {
@@ -67,34 +65,30 @@ const getAllFaculties = async (
   };
 };
 
-const getSingleFaculty = async (
-  id: string
-): Promise<IAcademicFaculty | null> => {
-  const result = await AcademicFaculty.findById(id);
+const getSingleUser = async (id: string): Promise<IUser | null> => {
+  const result = await User.findById(id);
   return result;
 };
 
-const updateFaculty = async (
+const updateUser = async (
   id: string,
-  payload: Partial<IAcademicFaculty>
-): Promise<IAcademicFaculty | null> => {
-  const result = await AcademicFaculty.findOneAndUpdate({ _id: id }, payload, {
+  payload: Partial<IUser>
+): Promise<IUser | null> => {
+  const result = await User.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
   return result;
 };
 
-const deleteByIdFromDB = async (
-  id: string
-): Promise<IAcademicFaculty | null> => {
-  const result = await AcademicFaculty.findByIdAndDelete(id);
+const deleteUser = async (id: string): Promise<IUser | null> => {
+  const result = await User.findByIdAndDelete(id);
   return result;
 };
 
-export const AcademicFacultyService = {
-  createFaculty,
-  getAllFaculties,
-  getSingleFaculty,
-  updateFaculty,
-  deleteByIdFromDB,
+export const UserService = {
+  createUser,
+  getAllUsers,
+  getSingleUser,
+  updateUser,
+  deleteUser,
 };

@@ -1,9 +1,9 @@
 import { Model, Types } from 'mongoose';
-import { IAcademicFaculty } from '../user/user.interfaces';
+import { IUser } from '../user/user.interfaces';
 
 export type IAcademicDepartment = {
   title: string;
-  academicFaculty: Types.ObjectId | IAcademicFaculty;
+  User: Types.ObjectId | IUser;
 };
 
 export type AcademicDepartmentModel = Model<
@@ -13,5 +13,5 @@ export type AcademicDepartmentModel = Model<
 
 export type IAcademicDepartmentFilters = {
   searchTerm?: string;
-  academicFaculty?: Types.ObjectId;
+  User?: Types.ObjectId;
 };
