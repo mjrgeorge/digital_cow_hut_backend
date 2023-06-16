@@ -1,17 +1,53 @@
 import { Schema, model } from 'mongoose';
-import { AcademicDepartmentModel, IAcademicDepartment } from './cow.interfaces';
+import { CowModel, ICow } from './cow.interfaces';
 
-const AcademicDepartmentSchema = new Schema<
-  IAcademicDepartment,
-  AcademicDepartmentModel
->(
+const CowSchema = new Schema<ICow, CowModel>(
   {
-    title: {
+    name: {
       type: String,
       required: true,
-      unique: true,
     },
-    User: {
+    age: {
+      type: Number,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+      enum: [
+        'Dhaka',
+        'Chattogram',
+        'Barishal',
+        'Rajshahi',
+        'Sylhet',
+        'Comilla',
+        'Rangpur',
+        'Mymensingh',
+      ],
+    },
+    breed: {
+      type: String,
+      required: true,
+    },
+    weight: {
+      type: Number,
+      required: true,
+    },
+    label: {
+      type: String,
+      required: true,
+      enum: ['for sale', 'sold out'],
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: ['Dairy', 'Beef', 'Dual Purpose'],
+    },
+    seller: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -25,7 +61,4 @@ const AcademicDepartmentSchema = new Schema<
   }
 );
 
-export const AcademicDepartment = model<
-  IAcademicDepartment,
-  AcademicDepartmentModel
->('AcademicDepartment', AcademicDepartmentSchema);
+export const Cow = model<ICow, CowModel>('Cow', CowSchema);

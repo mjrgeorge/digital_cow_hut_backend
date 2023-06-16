@@ -1,3 +1,9 @@
-export const UserFilterableFields = ['searchTerm', 'location', 'price'];
+export const UserSearchableFields = [
+  'id',
+  'phoneNumber',
+  'name.firstName',
+  'name.lastName',
+  'address',
+];
 
-export const UserSearchableFields = ['location', 'breed', 'category'];
+export const UserFilterableFields = ['searchTerm', 'phoneNumber'];

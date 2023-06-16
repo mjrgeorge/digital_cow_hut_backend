@@ -2,17 +2,14 @@ import { SortOrder } from 'mongoose';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/paginationOption';
-import { academicDepartmentSearchableFields } from './cow.constants';
-import {
-  IAcademicDepartment,
-  IAcademicDepartmentFilters,
-} from './cow.interfaces';
-import { AcademicDepartment } from './cow.model';
+import { cowSearchableFields } from './cow.constants';
+import { ICow, ICowFilters } from './cow.interfaces';
+import { Cow } from './cow.model';
 
-const getAllDepartments = async (
-  filters: IAcademicDepartmentFilters,
+const getAllCows = async (
+  filters: ICowFilters,
   paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<IAcademicDepartment[]>> => {
+): Promise<IGenericResponse<ICow[]>> => {
   const { limit, page, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
 
@@ -22,7 +19,7 @@ const getAllDepartments = async (
 
   if (searchTerm) {
     andConditions.push({
-      $or: academicDepartmentSearchableFields.map(field => ({
+      $or: cowSearchableFields.map(field => ({
         [field]: {
           $regex: searchTerm,
           $paginationOptions: 'i',
@@ -47,13 +44,16 @@ const getAllDepartments = async (
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
-  const result = await AcademicDepartment.find(whereConditions)
-    .populate('User')
+  const result = await Cow.find(whereConditions)
+    .populate({
+      path: 'seller',
+      options: { strictPopulate: false },
+    })
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
-  const total = await AcademicDepartment.countDocuments();
+  const total = await Cow.countDocuments();
 
   return {
     meta: {
@@ -65,45 +65,44 @@ const getAllDepartments = async (
   };
 };
 
-const createDepartment = async (
-  payload: IAcademicDepartment
-): Promise<IAcademicDepartment | null> => {
-  const result = (await AcademicDepartment.create(payload)).populate('User');
+const createCow = async (payload: ICow): Promise<ICow | null> => {
+  const result = (await Cow.create(payload)).populate({
+    path: 'seller',
+    options: { strictPopulate: false },
+  });
   return result;
 };
 
-const getSingleDepartment = async (
-  id: string
-): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findById(id).populate('User');
+const getSingleCow = async (id: string): Promise<ICow | null> => {
+  const result = await Cow.findById(id).populate({
+    path: 'seller',
+    options: { strictPopulate: false },
+  });
   return result;
 };
 
-const updateDepartment = async (
+const updateCow = async (
   id: string,
-  payload: Partial<IAcademicDepartment>
-): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findOneAndUpdate(
-    { _id: id },
-    payload,
-    {
-      new: true,
-    }
-  ).populate('User');
+  payload: Partial<ICow>
+): Promise<ICow | null> => {
+  const result = await Cow.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  }).populate({
+    path: 'seller',
+    options: { strictPopulate: false },
+  });
   return result;
 };
 
-const deleteDepartment = async (
-  id: string
-): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findByIdAndDelete(id);
+const deleteCow = async (id: string): Promise<ICow | null> => {
+  const result = await Cow.findByIdAndDelete(id);
   return result;
 };
 
-export const AcademicDepartmentService = {
-  getAllDepartments,
-  getSingleDepartment,
-  updateDepartment,
-  deleteDepartment,
-  createDepartment,
+export const CowService = {
+  getAllCows,
+  getSingleCow,
+  updateCow,
+  deleteCow,
+  createCow,
 };

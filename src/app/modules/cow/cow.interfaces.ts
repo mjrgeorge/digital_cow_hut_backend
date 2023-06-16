@@ -1,17 +1,29 @@
 import { Model, Types } from 'mongoose';
 import { IUser } from '../user/user.interfaces';
 
-export type IAcademicDepartment = {
-  title: string;
-  User: Types.ObjectId | IUser;
+export type ICow = {
+  name: string;
+  age: number;
+  price: number;
+  location:
+    | 'Dhaka'
+    | 'Chattogram'
+    | 'Barishal'
+    | 'Rajshahi'
+    | 'Sylhet'
+    | 'Comilla'
+    | 'Rangpur'
+    | 'Mymensingh';
+  breed: string;
+  weight: number;
+  label: 'for sale' | 'sold out';
+  category: 'Dairy' | 'Beef' | 'Dual Purpose';
+  seller: Types.ObjectId | IUser;
 };
 
-export type AcademicDepartmentModel = Model<
-  IAcademicDepartment,
-  Record<string, unknown>
->;
+export type CowModel = Model<ICow, Record<string, unknown>>;
 
-export type IAcademicDepartmentFilters = {
+export type ICowFilters = {
   searchTerm?: string;
-  User?: Types.ObjectId;
+  seller?: Types.ObjectId;
 };

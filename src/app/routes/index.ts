@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { academicDepartmentRoutes } from '../modules/cow/cow.routes';
+import { CowRoutes } from '../modules/cow/cow.routes';
 import { UserRoutes } from '../modules/user/user.route';
 
 const router = express.Router();
@@ -12,7 +12,7 @@ const moduleRoutes = [
   },
   {
     path: '/cows',
-    route: academicDepartmentRoutes,
+    route: CowRoutes,
   },
 ];
 

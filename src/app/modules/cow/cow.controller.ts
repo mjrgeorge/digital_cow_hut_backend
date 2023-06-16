@@ -5,82 +5,77 @@ import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { AcademicDepartmentService } from './cow.service';
-import { academicDepartmentFilterableFields } from './cow.constants';
-import { IAcademicDepartment } from './cow.interfaces';
+import { cowFilterableFields } from './cow.constants';
+import { ICow } from './cow.interfaces';
+import { CowService } from './cow.service';
 
-const createDepartment = catchAsync(async (req: Request, res: Response) => {
-  const { ...academicDepartmentData } = req.body;
-  const result = await AcademicDepartmentService.createDepartment(
-    academicDepartmentData
-  );
+const createCow = catchAsync(async (req: Request, res: Response) => {
+  const { ...CowData } = req.body;
+  const result = await CowService.createCow(CowData);
 
-  sendResponse<IAcademicDepartment>(res, {
+  sendResponse<ICow>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Department created successfully',
+    message: 'Cow created successfully',
     data: result,
   });
 });
 
-const getAllDepartments = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, academicDepartmentFilterableFields);
+const getAllCows = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, cowFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
 
-  const result = await AcademicDepartmentService.getAllDepartments(
-    filters,
-    paginationOptions
-  );
+  const result = await CowService.getAllCows(filters, paginationOptions);
 
-  sendResponse<IAcademicDepartment[]>(res, {
+  sendResponse<ICow[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic departments fetched successfully',
+    message: 'Cow fetched successfully',
     meta: result.meta,
     data: result.data,
   });
 });
 
-const getSingleDepartment = catchAsync(async (req: Request, res: Response) => {
+const getSingleCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await AcademicDepartmentService.getSingleDepartment(id);
+  const result = await CowService.getSingleCow(id);
 
-  sendResponse<IAcademicDepartment>(res, {
+  sendResponse<ICow>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Department fetched successfully',
+    message: 'Cow fetched successfully',
     data: result,
   });
 });
 
-const updateDepartment = catchAsync(async (req: Request, res: Response) => {
+const updateCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await AcademicDepartmentService.updateDepartment(id, req.body);
+  const result = await CowService.updateCow(id, req.body);
 
-  sendResponse<IAcademicDepartment>(res, {
+  sendResponse<ICow>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Department updated successfully',
+    message: 'Cow updated successfully',
     data: result,
   });
 });
 
-const deleteDepartment = catchAsync(async (req: Request, res: Response) => {
+const deleteCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await AcademicDepartmentService.deleteDepartment(id);
+  const result = await CowService.deleteCow(id);
 
-  sendResponse<IAcademicDepartment>(res, {
+  sendResponse<ICow>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Department deleted successfully',
+    message: 'Cow deleted successfully',
     data: result,
   });
 });
 
-export const AcademicDepartmentController = {
-  getAllDepartments,
-  getSingleDepartment,
-  updateDepartment,
-  deleteDepartment,
-  createDepartment,
+export const CowController = {
+  getAllCows,
+  getSingleCow,
+  updateCow,
+  deleteCow,
+  createCow,
 };
