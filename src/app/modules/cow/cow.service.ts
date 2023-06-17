@@ -16,6 +16,18 @@ const getAllCows = async (
 
   const andConditions = [];
 
+  if (
+    paginationOptions?.minPrice !== undefined &&
+    paginationOptions?.maxPrice !== undefined
+  ) {
+    andConditions.push({
+      price: {
+        $gte: paginationOptions?.minPrice,
+        $lte: paginationOptions?.maxPrice,
+      },
+    });
+  }
+
   if (searchTerm) {
     andConditions.push({
       $or: cowSearchableFields.map(field => ({
