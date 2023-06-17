@@ -5,12 +5,6 @@ import { UserValidation } from './user.validations';
 
 const router = express.Router();
 
-router.post(
-  '/auth/signup',
-  validateRequest(UserValidation.createUserZodSchema),
-  UserController.createUser
-);
-
 router.get('/:id', UserController.getSingleUser);
 
 router.patch(
