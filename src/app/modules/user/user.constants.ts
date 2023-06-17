@@ -6,4 +6,9 @@ export const UserSearchableFields = [
   'address',
 ];
 
-export const UserFilterableFields = ['searchTerm', 'phoneNumber'];
+export const UserFilterableFields = [
+  'searchTerm',
+  'id',
+  'phoneNumber',
+  'address',
+];
